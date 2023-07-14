@@ -75,16 +75,11 @@ class JsonReader:
 
     # выборка по дате
     def print_notes_filtered_by_data(self, date_at, date_to):
-        list_of_date = []
         objs = self.__sort_dict_by_date()
         for section in objs.values():
             for el in section:
-                for k, v in el.items():
-                    if k == "edit_date":
-                        list_of_date.append(v.split(" "))
-                        if date_at <= list_of_date[0][0] <= date_to:
-                            self.__print_p(el)
-                        list_of_date.clear()
+                if date_at <= el["edit_date"].split(" ")[0] <= date_to:
+                    self.__print_p(el)
 
     # проверка на вхождение номера заметки
     def check_id_note(self, id_note):
@@ -100,8 +95,7 @@ class JsonReader:
         objs = self.__sort_dict_by_date()
         for section in objs.values():
             for el in section:
-                for k, v in el.items():
-                    if k == "edit_date":
-                        list_of_date.append(v.split(" "))
-                        if date_at <= list_of_date[0][0] <= date_to:
-                            return True
+                list_of_date.append(el["edit_date"].split(" "))
+        for i in range(len(list_of_date)):
+            if date_at <= list_of_date[i][0] <= date_to:
+                return True
